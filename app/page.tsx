@@ -100,9 +100,9 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen h-screen items-center justify-center p-10 mesh-gradient overflow-hidden">
+    <main className="flex min-h-dynamic h-dynamic items-center justify-center p-10 mesh-gradient overflow-hidden">
       <Card className="w-full md:w-3/4 lg:w-1/2 h-full md:min-h-3/4 lg:min-h-1/2 flex flex-col items-center p-4 bg-white/75 rounded-3xl">
-        <CardHeader className="text-center min-h-[33.333%] h-2/6 flex flex-col items-center justify-end">
+        <CardHeader className={`text-center ${!isConnected ? "min-h-[50%] h-1/2" : "min-h-[33.333%] h-2/6" } flex flex-col items-center justify-end`}>
           <CardTitle className="text-4xl">Oreweb</CardTitle>
           <CardDescription>Share Your Files With Ease!</CardDescription>
         </CardHeader>

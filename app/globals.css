@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .min-h-dynamic {
+    min-height: 100vh; /* fallback for Opera, IE and etc. */
+    min-height: 100dvh;
+  }
+  .h-dynamic {
+    height: 100vh; /* fallback for Opera, IE and etc. */
+    height: 100dvh;
+  }
+}
+
 .mesh-gradient {
   background-color:#99d8ff;
   background-image:
