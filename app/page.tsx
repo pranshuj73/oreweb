@@ -116,7 +116,7 @@ export default function Home() {
             </div>
             { !isConnected ? (
               <div className="my-4">
-                <Label htmlFor="remoteId">Connect to Remote</Label>
+                <Label htmlFor="remoteId">Connect to remote to send files</Label>
                 <div className="flex items-center justify-between">
                   <Input id="remoteId" type="text" maxLength={5} placeholder="Remote ID" value={remoteId!} onChange={(e) => setRemoteId(e.target.value)} />
                   <Button className="ml-4" size={"sm"} disabled={!remoteId || (remoteId?.length != 5)} onClick={() => connectToRemote()}>
