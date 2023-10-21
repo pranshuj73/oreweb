@@ -4,6 +4,7 @@
 import { Peer } from "peerjs";
 import { useEffect, useState } from "react";
 import { randomId } from "@/lib/utils";
+import Image from "next/image";
 
 // SHADCN COMPONENTS
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -102,9 +103,11 @@ export default function Home() {
   return (
     <main className="flex min-h-dynamic h-dynamic items-center justify-center p-10 mesh-gradient overflow-hidden">
       <Card className="w-full md:w-3/4 lg:w-1/2 h-full md:min-h-3/4 lg:min-h-1/2 flex flex-col items-center p-4 bg-white/75 rounded-3xl">
-        <CardHeader className={`text-center ${!isConnected ? "min-h-[50%] h-1/2" : "min-h-[33.333%] h-2/6" } flex flex-col items-center justify-end`}>
-          <CardTitle className="text-4xl">Oreweb</CardTitle>
-          <CardDescription>Share Your Files With Ease!</CardDescription>
+        <CardHeader className={`text-center ${!isConnected ? "min-h-[50%] h-1/2 mt-4" : "min-h-[33.333%] h-2/6" } flex flex-col items-center justify-end`}>
+          <CardTitle>
+            <Image src={"/logo.svg"} alt="logo" width={852} height={165} className="h-auto w-[350px]" />
+          </CardTitle>
+          <CardDescription>Seamlessly share files between your devices!</CardDescription>
         </CardHeader>
         { peer ? (
           <CardContent className="w-full h-4/6 max-w-md mt-4">
@@ -174,7 +177,7 @@ export default function Home() {
             )}
           </CardContent>
         ) : (
-            <Button onClick={() => connect()}><Rocket className="mr-2 h-4 w-4" />Connect to Share</Button>
+            <Button className="w-full max-w-md mt-4" onClick={() => connect()}><Rocket className="mr-2 h-4 w-4" />Connect to Share</Button>
         )}
       </Card>
 
