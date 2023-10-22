@@ -10,6 +10,7 @@
     "static": "next build --omit=dev"
   },
   "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-scroll-area": "^1.0.5",
@@ -25,6 +26,7 @@
     "peerjs": "1.4.7",
     "react": "^18",
     "react-dom": "^18",
+    "react-qrcode-logo": "^2.9.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7"
   },

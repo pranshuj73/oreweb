@@ -13,6 +13,11 @@
   }
 }
 
+#react-qrcode-logo {
+  width: 100%!important;
+  height: auto!important;
+}
+
 .mesh-gradient {
   background-color:#99d8ff;
   background-image:

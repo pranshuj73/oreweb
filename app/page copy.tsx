@@ -11,23 +11,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast"
 import { Label } from "@/components/ui/label";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 // ICONS
-import { Rocket, Files, PlugZap, Unplug, QrCode } from "lucide-react"
+import { Rocket, Files, PlugZap, ChevronsUpDown, Unplug } from "lucide-react"
 import Link from "next/link";
-import SenderQR from "@/components/SenderQR";
 
 // TYPES
 interface fileData { fileName: string; fileUrl: string; }
@@ -41,7 +30,7 @@ export default function Home() {
   }
 
   const [peer, setPeer] = useState<Peer | null>(null);
-  const [isReceiver, setIsReceiver] = useState<boolean>(true);
+  const [isReceiver, setIsReceiver] = useState<boolean>(false);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [remoteId, setRemoteId] = useState<string | null>(null);
   const [conn, setConn] = useState<any | null>(null);
@@ -50,12 +39,6 @@ export default function Home() {
 
   useEffect(() => {
     if (peer) {
-      peer.on("disconnected", () => disconnect());
-      peer.on("error", (err) => {
-        console.log(err);
-        toast({ title: "Error", description: "An error occured. Please try again!" });
-        disconnect();
-      });
       peer.on("connection", (conn) => {
         conn.on("open", () => {
           const remoteId = conn.peer;
@@ -79,10 +62,9 @@ export default function Home() {
     }
   }, [peer]);
 
-  const connect = (asReceiver: boolean = true) => {
+  const connect = () => {
     var peer = new Peer(randomId());
     setPeer(peer);
-    setIsReceiver(asReceiver);
   }
 
   const connectToRemote = () => {
@@ -123,7 +105,7 @@ export default function Home() {
   return (
     <main className="flex min-h-dynamic h-dynamic items-center justify-center p-10 mesh-gradient">
       <Card className="w-full md:w-3/4 lg:w-1/2 h-full max-h-full flex flex-col items-center p-4 bg-white/75 rounded-3xl">
-        <CardHeader className={`text-center ${!peer ? "min-h-[50%] h-1/2 mt-4" : "min-h-[33.333%] h-1/3" } flex flex-col items-center justify-end`}>
+        <CardHeader className={`text-center ${!isConnected ? "min-h-[50%] h-1/2 mt-4" : "flex-shrink" } flex flex-col items-center justify-end`}>
           <CardTitle>
             <svg className="h-auto max-w-[350px] w-full" width="852" height="165" viewBox="0 0 852 165" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M178.035 131.641V32.2409H221.995C226.568 32.2409 230.768 33.1742 234.595 35.0409C238.515 36.9076 241.875 39.4276 244.675 42.6009C247.568 45.7742 249.761 49.3209 251.255 53.2409C252.841 57.1609 253.635 61.1742 253.635 65.2809C253.635 69.4809 252.888 73.5409 251.395 77.4609C249.995 81.2876 247.941 84.6476 245.235 87.5409C242.528 90.4342 239.355 92.6742 235.715 94.2609L258.395 131.641H237.115L216.675 98.3209H197.355V131.641H178.035ZM197.355 81.3809H221.575C224.001 81.3809 226.148 80.6809 228.015 79.2809C229.881 77.7876 231.375 75.8276 232.495 73.4009C233.615 70.9742 234.175 68.2676 234.175 65.2809C234.175 62.1076 233.521 59.3542 232.215 57.0209C230.908 54.5942 229.228 52.6809 227.175 51.2809C225.215 49.8809 223.068 49.1809 220.735 49.1809H197.355V81.3809ZM384.96 114.701V131.641H315.94V32.2409H383.7V49.1809H335.26V73.1209H377.12V88.8009H335.26V114.701H384.96ZM478.842 32.5209H496.762L508.102 65.4209L519.582 32.5209H537.362L520.282 77.7409L532.882 109.381L561.022 32.2409H582.022L542.262 131.641H525.602L508.102 89.9209L490.742 131.641H474.082L434.462 32.2409H455.182L483.462 109.381L495.782 77.7409L478.842 32.5209ZM706.025 114.701V131.641H637.005V32.2409H704.765V49.1809H656.325V73.1209H698.185V88.8009H656.325V114.701H706.025ZM845.967 106.021C845.967 111.621 844.52 116.334 841.627 120.161C838.734 123.894 834.814 126.741 829.867 128.701C825.014 130.661 819.694 131.641 813.907 131.641H765.887V32.2409H819.087C823.754 32.2409 827.767 33.5009 831.127 36.0209C834.58 38.4476 837.194 41.6209 838.967 45.5409C840.834 49.3676 841.767 53.3809 841.767 57.5809C841.767 62.3409 840.554 66.8676 838.127 71.1609C835.7 75.4542 832.154 78.6276 827.487 80.6809C833.18 82.3609 837.66 85.3942 840.927 89.7809C844.287 94.1676 845.967 99.5809 845.967 106.021ZM826.507 102.381C826.507 99.8609 825.994 97.6209 824.967 95.6609C823.94 93.6076 822.54 92.0209 820.767 90.9009C819.087 89.6876 817.127 89.0809 814.887 89.0809H785.207V115.261H813.907C816.24 115.261 818.34 114.701 820.207 113.581C822.167 112.368 823.707 110.781 824.827 108.821C825.947 106.861 826.507 104.714 826.507 102.381ZM785.207 48.7609V73.8209H810.967C813.114 73.8209 815.074 73.3076 816.847 72.2809C818.62 71.2542 820.02 69.8076 821.047 67.9409C822.167 66.0742 822.727 63.8342 822.727 61.2209C822.727 58.7009 822.214 56.5076 821.187 54.6409C820.254 52.7742 818.947 51.3276 817.267 50.3009C815.68 49.2742 813.86 48.7609 811.807 48.7609H785.207Z" fill="currentColor"/>
@@ -132,118 +114,86 @@ export default function Home() {
           </CardTitle>
           <CardDescription>Share Files Anonymously, Effortlessly.</CardDescription>
         </CardHeader>
-        
-          { !peer ? (
-            <CardContent className="w-full max-w-md">
-              <Button className="w-full my-1" variant={"secondary"} onClick={() => connect(false)}>
-                Send Files
+        { peer ? (
+          <CardContent className="w-full flex-grow min-h-0 max-w-md mt-4">
+            <div className="flex items-center justify-between my-2">
+              <p>Your ID: <span className="font-semibold">{peer.id}</span></p>
+              <Button className="ml-4" size={"sm"} onClick={() => copyId()}>
+                <Files className="h-4 w-4" />
               </Button>
-              <Button className="w-full my-1" onClick={() => connect(true)}>
-                Receive Files
-              </Button>
-            </CardContent>
-          ) : (
-            <CardContent className="w-full max-w-md">
-              <div className="flex flex-wrap items-center my-2">
-                <p className="mr-auto">Your ID: <span className="font-semibold">{peer.id}</span></p>
-                <Button size={"sm"} onClick={() => copyId()}>
-                  <Files className="h-4 w-4" />
+            </div>
+            { !isConnected ? (
+              <>
+                <Button className="w-full my-1" variant={"secondary"} onClick={() => setIsReceiver(false)}>
+                  Send Files
                 </Button>
-                <AlertDialog>
-                  <AlertDialogTrigger className="ml-2 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3">
-                  {/* <Button className="ml-2" size={"sm"} onClick={() => copyId()}> */}
-                  <QrCode className="h-4 w-4" />
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="flex flex-col items-center justify-center">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Scan Your QR Code</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        <SenderQR value={peer ? peer.id.toString() : "ERROR :["} />
-                        <p className='text-center '>{peer.id}</p>
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => copyId()}>Copy Code Instead</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </div>
-              
-              { isReceiver ? (
-                // RECEIVER CODE
-                <>
-                  <div className="flex items-center justify-between my-2">
-                    { !isConnected ? (
-                      <p>No peers have connected yet :[</p>
-                    ) : (
-                      <p>Connected to <span className="font-semibold">{remoteId}</span></p>
-                    ) }
-                    <Button className="ml-4" size={"sm"} disabled={!remoteId} variant={"destructive"} onClick={() => disconnect()}>
-                      <Unplug className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <Separator className="my-6" />
-                  <div className="w-full space-y-2 h-[200px]">
-                    <h4 className="text-sm font-semibold">
-                      Received {files.length} Files <span className={`font-normal ${remoteListIsExpanded || files.length == 0 ?"hidden" : ""}`}>(Expand To Download)</span>
-                    </h4>
-                    {( files.length > 0 ) ? (
+                <Button className="w-full my-1" onClick={() => setIsReceiver(true)}>
+                  Receive Files
+                </Button>
+                {/* <Label htmlFor="remoteId">Connect to remote to send files</Label>
+                <div className="flex items-center justify-between">
+                  <Input id="remoteId" type="text" maxLength={5} placeholder="Remote ID" value={remoteId!} onChange={(e) => setRemoteId(e.target.value)} />
+                  <Button className="ml-4" size={"sm"} disabled={!remoteId || (remoteId?.length != 5)} onClick={() => connectToRemote()}>
+                    <PlugZap className="h-4 w-4" />
+                  </Button>
+                </div> */}
+              </>
+            ) : (
+              <>
+                <div className="flex items-center justify-between my-2">
+                  <p>Connected to <span className="font-semibold">{remoteId}</span></p>
+                  <Button className="ml-4" size={"sm"} variant={"destructive"} onClick={() => disconnect()}>
+                    <Unplug className="h-4 w-4" />
+                  </Button>
+                </div>
+                <Separator className="my-6" />
+                { isReceiver ? (
+                  <div
+                    className="w-full space-y-2 flex-grow min-h-0 flex flex-col "
+                  >
+                    <div className="flex items-center justify-between space-x-4">
+                      <h4 className="text-sm font-semibold">
+                        Received {files.length} Files <span className={`font-normal ${remoteListIsExpanded || files.length == 0 ?"hidden" : ""}`}>(Expand To Download)</span>
+                      </h4>
+                      <Button variant="ghost" size="sm" className="w-9 p-0 hidden">
+                        <ChevronsUpDown className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    {( files.length == 0 ) ? (
+                      // the tailwind class for a custom max height with the minimum value between 200px and 50% being chosen is max-h-[min(50%, 200px)]
                       <ScrollArea className="space-y-2 h-full max-h-full w-full">
-                        {files.map((file) => (
+                        {/* {files.map((file) => (
                           <a href={file.fileUrl} download={file.fileName} className="rounded-md border px-4 py-3 font-mono text-sm block my-2"> { file.fileName } </a>
-                        ))}
-
-                        {/* DEBUG CODE: create a dummy array to create 30 links */}
-                        {/* {Array.from(Array(30).keys()).map((i) => (
-                          <a href="#" className="rounded-md border px-4 py-3 font-mono text-sm block my-2"> Dummy File {i} </a>
                         ))} */}
+
+                        {/* create a dummy array to create 30 links */}
+                        {Array.from(Array(30).keys()).map((i) => (
+                          <a href="#" className="rounded-md border px-4 py-3 font-mono text-sm block my-2"> Dummy File {i} </a>
+                        ))}
 
                       </ScrollArea>
                     ) : (
                       <span className="rounded-md border px-4 py-2 font-mono text-sm block"> Ask your peer to share some files! </span>
                     ) }
+                    
                   </div>
-                </>
-              ) : (
-                // SENDER CODE
-                <>
-                { isConnected ? (
-                  // CONNECTED TO REMOTE
-                  <>
-                    <div className="flex items-center justify-between my-2">
-                      <p>Connected to <span className="font-semibold">{remoteId}</span></p>
-                      <Button className="ml-2" size={"sm"} variant={"destructive"} onClick={() => disconnect()}>
-                        <Unplug className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    <Separator className="my-6" />
-                    <div className="grid w-full max-w-sm items-center gap-1.5">
-                      <Label htmlFor="files">Share files</Label>
-                      <Input id="files" type="file" multiple />
-                      <Button size={"sm"} onClick={() => sendFiles()}> Send Selected Files <Rocket className="ml-2 h-4 w-4" /> </Button>
-                    </div>
-                  </>
                 ) : (
-                  // NOT CONNECTED TO REMOTE
-                  <>
-                    <Label htmlFor="remoteId">Connect to remote to send files</Label>
-                    <div className="flex items-center justify-between">
-                      <Input id="remoteId" type="text" maxLength={5} placeholder="Remote ID" value={remoteId!} onChange={(e) => setRemoteId(e.target.value)} />
-                      <Button className="ml-2" size={"sm"} disabled={!remoteId || (remoteId?.length != 5)} onClick={() => connectToRemote()}>
-                        <PlugZap className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </>
-                )} 
-                </>
-              ) }
-            </CardContent>
-          ) }
+                  <div className="grid w-full max-w-sm items-center gap-1.5">
+                    <Label htmlFor="files">Share files</Label>
+                    <Input id="files" type="file" multiple />
+                    <Button size={"sm"} onClick={() => sendFiles()}> Send Selected Files <Rocket className="ml-2 h-4 w-4" /> </Button>
+                  </div>
+                )}
+              </>
+            )}
+          </CardContent>
+        ) : (
+            <Button className="w-full max-w-md mt-4" onClick={() => connect()}><Rocket className="mr-2 h-4 w-4" />Connect to Share</Button>
+        )}
 
-        <CardFooter className="flex items-center justify-center mt-auto text-xs">
+        <div className="flex items-center justify-center mt-auto text-xs">
           Made by <Link className="mx-1 text-blue-500" target={"_blank"} rel={"noopener noreferrer"} href={"https://twitter.com/pranshuj73"}>@pranshuj73</Link> with <span className="text-red-500 ml-1">❤</span>
-        </CardFooter>
+        </div>
       </Card>
 
     </main>
