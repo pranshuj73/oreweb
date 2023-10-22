@@ -10,8 +10,6 @@
     "static": "next build --omit=dev"
   },
   "dependencies": {
-    "@capacitor/android": "^5.5.0",
-    "@capacitor/core": "^5.5.0",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-scroll-area": "^1.0.5",
