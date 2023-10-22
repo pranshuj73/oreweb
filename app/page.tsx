@@ -4,6 +4,10 @@
 import { Peer } from "peerjs";
 import { useEffect, useState } from "react";
 import { randomId } from "@/lib/utils";
+import Link from "next/link";
+
+// COMPONENTS
+import SenderQR from "@/components/SenderQR";
 
 // SHADCN COMPONENTS
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,23 +15,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast"
 import { Label } from "@/components/ui/label";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog"
 import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
+
 // ICONS
-import { Rocket, Files, PlugZap, Unplug, QrCode } from "lucide-react"
-import Link from "next/link";
-import SenderQR from "@/components/SenderQR";
+import { Rocket, Files, PlugZap, Unplug, QrCode, DownloadCloud } from "lucide-react"
 
 // TYPES
 interface fileData { fileName: string; fileUrl: string; }
@@ -135,12 +128,8 @@ export default function Home() {
         
           { !peer ? (
             <CardContent className="w-full max-w-md">
-              <Button className="w-full my-1" variant={"secondary"} onClick={() => connect(false)}>
-                Send Files
-              </Button>
-              <Button className="w-full my-1" onClick={() => connect(true)}>
-                Receive Files
-              </Button>
+              <Button className="w-full my-1" variant={"secondary"} onClick={() => connect(false)}> Send Files<Rocket className="ml-2 h-4 w-4" /></Button>
+              <Button className="w-full my-1" onClick={() => connect(true)}>Receive Files <DownloadCloud className="ml-2 h-4 w-4" /></Button>
             </CardContent>
           ) : (
             <CardContent className="w-full max-w-md">
