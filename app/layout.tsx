@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Oreweb',
-  description: 'Share files between devices with ease!',
+  description: 'Share Files Anonymously, Effortlessly.',
 }
 
 export default function RootLayout({

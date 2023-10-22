@@ -54,7 +54,8 @@ export default function Home() {
             const fileName = data.fileName;
             const fileUrl = URL.createObjectURL(file);
             setFiles((files) => [...files, { fileName, fileUrl }]);
-            toast({ title: `Received files from ${conn.peer}`, description: "Expand overview to download them!" });
+            // generate toast with appropriate message asking users to download the files
+            toast({ title: `Received ${fileName} from ${conn.peer}`, description: "Download your files from the overview!" });
           }
         });
       });
@@ -79,12 +80,13 @@ export default function Home() {
     if (conn) {
       const files = document.getElementById("files") as HTMLInputElement;
       const fileList = files.files;
-      if (fileList) {
+      if (fileList && fileList.length > 0) {
         for (let i = 0; i < fileList.length; i++) {
           const file = fileList[i];
           const fileData = new Blob([file], { type: file.type });
           await conn.send({ fileName: file.name, fileType: file.type, fileData: fileData, })
         }
+        toast({ title: `Sent ${fileList.length} files to ${conn.peer}`, description: "Ask them to download it now!" });
       }
     }
   }
@@ -107,7 +109,7 @@ export default function Home() {
           <CardTitle>
             <Image src={"/logo.svg"} alt="logo" width={852} height={165} className="h-auto w-[350px]" />
           </CardTitle>
-          <CardDescription>Seamlessly share files between your devices!</CardDescription>
+          <CardDescription>Share Files Anonymously, Effortlessly.</CardDescription>
         </CardHeader>
         { peer ? (
           <CardContent className="w-full h-4/6 max-w-md mt-4">
