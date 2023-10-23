@@ -24,7 +24,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
-      <main className="flex min-h-dynamic h-dynamic items-center justify-center md:p-10 mesh-gradient">
+      <main className="flex min-h-dynamic h-dynamic items-center justify-center p-4 sm:p-8 md:p-10 mesh-gradient">
         <Card className="w-full md:w-3/4 lg:w-1/2 h-full max-h-full flex flex-col items-center p-4 bg-white/75 rounded-3xl">
           <CardHeader className={`text-center min-h-[50%] h-1/2 flex flex-col items-center justify-end`}>
             <CardTitle>
