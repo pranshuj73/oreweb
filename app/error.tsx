@@ -33,7 +33,7 @@ export default function Error({
         <CardContent className="text-center text-sm text-gray-700 max-w-md w-full">
           <p className="my-2">You seem to have been disconnected from the server :[</p>
           <p className="my-2">This could be because of our servers being down or network problems from your end. Please try refreshing.</p>
-          <Button onClick={() => reset()}>Refresh</Button>
+          <Button className='w-full my-1' onClick={() => reset()}>Refresh</Button>
         </CardContent>
 
         <CardFooter className="flex items-center flex-wrap justify-center mt-auto text-xs">

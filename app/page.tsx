@@ -20,8 +20,7 @@ import { Separator } from "@/components/ui/separator"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 // ICONS
-import { Rocket, Files, PlugZap, Unplug, QrCode, DownloadCloud } from "lucide-react"
-import ErrorBoundary from "@/components/ErrorBoundary";
+import { Rocket, Files, PlugZap, Unplug, QrCode, DownloadCloud } from "lucide-react";
 
 // TYPES
 interface fileData { fileName: string; fileUrl: string; }
