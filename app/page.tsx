@@ -67,11 +67,12 @@ export default function Home() {
             toast({ title: `Received ${fileName} from ${conn.peer}`, description: "Download your files from the overview!" });
           }
         });
-        conn.on("close", () => { 
-          toast({ title: `${remoteId} has disconnected!`, description: "Please try reconnecting!" });
+        conn.on("close", () => {
+          toast({ title: `Connection Lost!`, description: "Please try reconnecting with remote again!" });
           disconnect();
         })
-        conn.on("error", () => {
+        conn.on("error", (err) => {
+          console.log(err)
           toast({ title: "Error", description: "An error occured. Please try again!" });
           disconnect();
         })
@@ -134,15 +135,12 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const hasRemID = searchParams.has('rem')
-    if (hasRemID) {
-      const remID = searchParams.get('rem')
-      if (remID && validatePeerID(remID!)) {
-        connect(false);  // connect as sender
-        setRemoteId(remID);
-      } else {
-        toast({ title: "Error", description: "Invalid Remote ID! Please try again!" })
-      }
+    const remID = searchParams.get('rem')
+    if (remID && validatePeerID(remID!)) {
+      connect(false);  // connect as sender
+      setRemoteId(remID);
+    } else {
+      toast({ title: "Error", description: "Invalid Remote ID! Please try again!" })
     }
   }, [])
 
