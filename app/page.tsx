@@ -37,19 +37,8 @@ export default function Home() {
   const [conn, setConn] = useState<any | null>(null);
   const [files, setFiles] = useState<fileData[]>([]);
   const [remoteListIsExpanded, setRemoteListIsExpanded] = useState(true)
-  
   const searchParams = useSearchParams()
- 
-  const hasRemID = searchParams.has('rem')
-  if (hasRemID) {
-    const remID = searchParams.get('rem')
-    if (remID && validatePeerID(remID)) {
-      connect(false);  // connect as sender
-      connectToRemote(remID)
-    } else {
-      toast({ title: "Error", description: "Invalid Remote ID! Please try again!" })
-    }
-  }
+  
 
 
   useEffect(() => {
@@ -126,6 +115,17 @@ export default function Home() {
       setIsReceiver(false);
       setRemoteId(null);
       setFiles([]);
+    }
+  }
+
+  const hasRemID = searchParams.has('rem')
+  if (hasRemID) {
+    const remID = searchParams.get('rem')
+    if (remID && validatePeerID(remID)) {
+      connect(false);  // connect as sender
+      connectToRemote(remID)
+    } else {
+      toast({ title: "Error", description: "Invalid Remote ID! Please try again!" })
     }
   }
 
