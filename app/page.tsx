@@ -36,7 +36,6 @@ export default function Home() {
   const [remoteId, setRemoteId] = useState<string | null>(null);
   const [conn, setConn] = useState<any | null>(null);
   const [files, setFiles] = useState<fileData[]>([]);
-  const [remoteListIsExpanded, setRemoteListIsExpanded] = useState(true)
   const searchParams = useSearchParams()
   
 
@@ -70,11 +69,16 @@ export default function Home() {
         });
       });
     }
-  }, [peer]);
+  }, [peer, conn]);
   
   const copyId = () => {
     navigator.clipboard.writeText(peer!.id);
     toast({ title: "Copied ID", description: "Share it with others and ask them to connect!" });
+  }
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(`https://oreweb.vercel.app/?rem=${peer!.id.toString()}`);
+    toast({ title: "Copied Link", description: "Share it with others and ask them to connect!" });
   }
   
   const connect = (asReceiver: boolean = true) => {
@@ -83,12 +87,15 @@ export default function Home() {
     setIsReceiver(asReceiver);
   }
 
-  const connectToRemote = () => {
+  const connectToRemote = (remoteID: string) => {
     if (peer) {
-      const conn_ = peer.connect(remoteId!);
+      console.log("connecting....")
+      const conn_ = peer.connect(remoteID);
+      console.log("connected hopefully....")
       setConn(conn_);
       setIsConnected(true);
       setIsReceiver(false);
+      console.log(conn_)
     }
   }
 
@@ -110,6 +117,7 @@ export default function Home() {
   const disconnect = () => {
     if (conn) {
       conn.close();
+      setPeer(null)
       setConn(null);
       setIsConnected(false);
       setIsReceiver(false);
@@ -122,10 +130,9 @@ export default function Home() {
     const hasRemID = searchParams.has('rem')
     if (hasRemID) {
       const remID = searchParams.get('rem')
-      if (remID && validatePeerID(remID)) {
+      if (remID && validatePeerID(remID!)) {
         connect(false);  // connect as sender
         setRemoteId(remID);
-        connectToRemote();
       } else {
         toast({ title: "Error", description: "Invalid Remote ID! Please try again!" })
       }
@@ -172,7 +179,7 @@ export default function Home() {
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => copyId()}>Copy Code Instead</AlertDialogAction>
+                        <AlertDialogAction onClick={() => copyLink()}>Copy Link</AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
@@ -182,6 +189,7 @@ export default function Home() {
               { isReceiver ? (
                 // RECEIVER CODE
                 <>
+                  <span>{isConnected}</span>
                   <div className="flex items-center justify-between my-2">
                     { !isConnected ? (
                       <p>No peers have connected yet :[</p>
@@ -195,7 +203,7 @@ export default function Home() {
                   <Separator className="my-6" />
                   <div className="w-full space-y-2 h-[200px]">
                     <h4 className="text-sm font-semibold">
-                      Received {files.length} Files <span className={`font-normal ${remoteListIsExpanded || files.length == 0 ?"hidden" : ""}`}>(Click on file to download)</span>
+                      Received {files.length} Files <span className={`font-normal ${files.length == 0 ? "hidden" : ""}`}>(Click on file to download)</span>
                     </h4>
                     {( files.length > 0 ) ? (
                       <ScrollArea className="space-y-2 h-full max-h-full w-full">
@@ -238,8 +246,8 @@ export default function Home() {
                   <>
                     <Label htmlFor="remoteId">Connect to remote to send files</Label>
                     <div className="flex items-center justify-between">
-                      <Input id="remoteId" type="text" maxLength={5} placeholder="Remote ID" value={remoteId!} onChange={(e) => setRemoteId(e.target.value)} />
-                      <Button className="ml-2" size={"sm"} disabled={!remoteId || (remoteId?.length != 5)} onClick={() => connectToRemote()}>
+                      <Input id="remoteId" type="text" maxLength={5} placeholder="Remote ID" value={remoteId || ""} onChange={(e) => setRemoteId(e.target.value)} />
+                      <Button className="ml-2" size={"sm"} disabled={!remoteId || (remoteId?.length != 5)} onClick={() => remoteId && connectToRemote(remoteId)}>
                         <PlugZap className="h-4 w-4" />
                       </Button>
                     </div>
