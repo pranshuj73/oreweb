@@ -3,8 +3,9 @@
 // LIBS
 import { Peer } from "peerjs";
 import { useEffect, useState } from "react";
-import { randomId } from "@/lib/utils";
+import { randomId, validatePeerID } from "@/lib/utils";
 import Link from "next/link";
+import { useSearchParams } from 'next/navigation'
 
 // COMPONENTS
 import SenderQR from "@/components/SenderQR";
@@ -28,10 +29,6 @@ interface fileData { fileName: string; fileUrl: string; }
 
 export default function Home() {
   const { toast } = useToast()
-  const copyId = () => {
-    navigator.clipboard.writeText(peer!.id);
-    toast({ title: "Copied ID", description: "Share it with others and ask them to connect!" });
-  }
 
   const [peer, setPeer] = useState<Peer | null>(null);
   const [isReceiver, setIsReceiver] = useState<boolean>(true);
@@ -40,6 +37,20 @@ export default function Home() {
   const [conn, setConn] = useState<any | null>(null);
   const [files, setFiles] = useState<fileData[]>([]);
   const [remoteListIsExpanded, setRemoteListIsExpanded] = useState(true)
+  
+  const searchParams = useSearchParams()
+ 
+  const hasRemID = searchParams.has('rem')
+  if (hasRemID) {
+    const remID = searchParams.get('rem')
+    if (validatePeerID(remID)) {
+      connect(false);  // connect as sender
+      connectToRemote(remID)
+    } else {
+      toast({ title: "Error", description: "Invalid Remote ID! Please try again!" })
+    }
+  }
+
 
   useEffect(() => {
     if (peer) {
@@ -71,7 +82,12 @@ export default function Home() {
       });
     }
   }, [peer]);
-
+  
+  const copyId = () => {
+    navigator.clipboard.writeText(peer!.id);
+    toast({ title: "Copied ID", description: "Share it with others and ask them to connect!" });
+  }
+  
   const connect = (asReceiver: boolean = true) => {
     var peer = new Peer(randomId());
     setPeer(peer);
@@ -138,25 +154,26 @@ export default function Home() {
                 <Button size={"sm"} onClick={() => copyId()}>
                   <Files className="h-4 w-4" />
                 </Button>
-                <AlertDialog>
-                  <AlertDialogTrigger className="ml-2 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3">
-                  {/* <Button className="ml-2" size={"sm"} onClick={() => copyId()}> */}
-                  <QrCode className="h-4 w-4" />
-                  </AlertDialogTrigger>
-                  <AlertDialogContent className="flex flex-col items-center justify-center">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Scan Your QR Code</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        <SenderQR value={peer ? peer.id.toString() : "ERROR :["} />
-                        <p className='text-center '>{peer.id}</p>
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => copyId()}>Copy Code Instead</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                { isReceiver ? (
+                  <AlertDialog>
+                    <AlertDialogTrigger className="ml-2 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3">
+                    <QrCode className="h-4 w-4" />
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="flex flex-col items-center justify-center">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Scan Your QR Code</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          <SenderQR value={peer ? `https://oreweb.vercel.app/?rem=${peer.id.toString()}` : "ERROR :["} />
+                          <p className='text-center'>{peer.id}</p>
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => copyId()}>Copy Code Instead</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                ) : null }
               </div>
               
               { isReceiver ? (
