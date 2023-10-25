@@ -123,7 +123,8 @@ export default function Home() {
     const remID = searchParams.get('rem')
     if (remID && validatePeerID(remID)) {
       connect(false);  // connect as sender
-      connectToRemote(remID)
+      setRemoteId(remID);
+      connectToRemote();
     } else {
       toast({ title: "Error", description: "Invalid Remote ID! Please try again!" })
     }
