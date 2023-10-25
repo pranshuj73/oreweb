@@ -118,17 +118,19 @@ export default function Home() {
     }
   }
 
-  const hasRemID = searchParams.has('rem')
-  if (hasRemID) {
-    const remID = searchParams.get('rem')
-    if (remID && validatePeerID(remID)) {
-      connect(false);  // connect as sender
-      setRemoteId(remID);
-      connectToRemote();
-    } else {
-      toast({ title: "Error", description: "Invalid Remote ID! Please try again!" })
+  useEffect(() => {
+    const hasRemID = searchParams.has('rem')
+    if (hasRemID) {
+      const remID = searchParams.get('rem')
+      if (remID && validatePeerID(remID)) {
+        connect(false);  // connect as sender
+        setRemoteId(remID);
+        connectToRemote();
+      } else {
+        toast({ title: "Error", description: "Invalid Remote ID! Please try again!" })
+      }
     }
-  }
+  }, [])
 
   return (
     <main className="flex min-h-dynamic h-dynamic items-center justify-center p-4 sm:p-8 md:p-10 mesh-gradient">
