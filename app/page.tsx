@@ -42,10 +42,10 @@ export default function Home() {
 
   useEffect(() => {
     if (peer) {
-      peer.on("disconnected", () => disconnect());
+      peer.on("disconnected", () => { setPeer(null); disconnect(); });
       peer.on("error", (err) => {
-        console.log(err);
         toast({ title: "Error", description: "An error occured. Please try again!" });
+        setPeer(null);
         disconnect();
       });
       peer.on("connection", (conn) => {
@@ -67,6 +67,14 @@ export default function Home() {
             toast({ title: `Received ${fileName} from ${conn.peer}`, description: "Download your files from the overview!" });
           }
         });
+        conn.on("close", () => { 
+          toast({ title: `${remoteId} has disconnected!`, description: "Please try reconnecting!" });
+          disconnect();
+        })
+        conn.on("error", () => {
+          toast({ title: "Error", description: "An error occured. Please try again!" });
+          disconnect();
+        })
       });
     }
   }, [peer, conn]);
@@ -117,7 +125,6 @@ export default function Home() {
   const disconnect = () => {
     if (conn) {
       conn.close();
-      setPeer(null)
       setConn(null);
       setIsConnected(false);
       setIsReceiver(false);
