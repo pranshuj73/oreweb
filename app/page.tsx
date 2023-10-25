@@ -43,7 +43,7 @@ export default function Home() {
   const hasRemID = searchParams.has('rem')
   if (hasRemID) {
     const remID = searchParams.get('rem')
-    if (validatePeerID(remID)) {
+    if (remID && validatePeerID(remID)) {
       connect(false);  // connect as sender
       connectToRemote(remID)
     } else {
