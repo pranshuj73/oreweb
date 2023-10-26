@@ -1,7 +1,7 @@
 "use client";
 
 // LIBS
-import { Peer } from "peerjs";
+import { DataConnection, Peer } from "peerjs";
 import { useEffect, useState } from "react";
 import { randomId, validatePeerID } from "@/lib/utils";
 import Link from "next/link";
@@ -34,7 +34,7 @@ export default function Home() {
   const [isReceiver, setIsReceiver] = useState<boolean>(true);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [remoteId, setRemoteId] = useState<string | null>(null);
-  const [conn, setConn] = useState<any | null>(null);
+  const [conn, setConn] = useState<DataConnection | null>(null);
   const [files, setFiles] = useState<fileData[]>([]);
   const searchParams = useSearchParams()
   
@@ -42,7 +42,7 @@ export default function Home() {
 
   useEffect(() => {
     if (peer) {
-      peer.on("disconnected", () => { setPeer(null); disconnect(); });
+      peer.on("disconnected", (id: string) => { setPeer(null); disconnect(); });
       peer.on("error", (err) => {
         toast({ title: "Error", description: "An error occured. Please try again!" });
         setPeer(null);
@@ -68,7 +68,9 @@ export default function Home() {
           }
         });
         conn.on("close", () => {
-          toast({ title: `Connection Lost!`, description: "Please try reconnecting with remote again!" });
+          const prevID = remoteId;
+          console.log("a peer got disconnected");
+          toast({ title: `Connection Lost! ${conn.peer}`, description: "Please try reconnecting with remote again!" });
           disconnect();
         })
         conn.on("error", (err) => {
@@ -126,11 +128,11 @@ export default function Home() {
   const disconnect = () => {
     if (conn) {
       conn.close();
-      setConn(null);
-      setIsConnected(false);
-      setIsReceiver(false);
-      setRemoteId(null);
-      setFiles([]);
+      setConn(e=>null);
+      setIsConnected(e=>false);
+      // setIsReceiver(e=>false);
+      setRemoteId(e=>null);
+      setFiles(e=>[]);
     }
   }
 
