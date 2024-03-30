@@ -10,6 +10,7 @@
     "static": "next build --omit=dev"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.2.5",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-label": "^2.0.2",
@@ -20,12 +21,13 @@
     "browser-env": "^3.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "eslint-config-next": "^14.1.4",
     "js-file-download": "^0.4.12",
     "lucide-react": "^0.288.0",
-    "next": "13.5.6",
+    "next": "^14.1.4",
     "peerjs": "1.4.7",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-qrcode-logo": "^2.9.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7"
