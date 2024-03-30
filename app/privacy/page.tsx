@@ -19,10 +19,10 @@ export default function Privacy() {
             <p><strong>Affiliate</strong> means an entity that controls, is controlled by or is under common control with a party, where "control" means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.</p>
           </li>
           <li>
-            <p><strong>Application</strong> refers to IVY, the software program provided by the Company.</p>
+            <p><strong>Application</strong> refers to Oreweb, the software program provided by the Company.</p>
           </li>
           <li>
-            <p><strong>Company</strong> (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to IVY.</p>
+            <p><strong>Company</strong> (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to Oreweb.</p>
           </li>
           <li>
             <p><strong>Country</strong> refers to: India</p>
@@ -61,17 +61,6 @@ export default function Privacy() {
         <p>Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data.</p>
         <p>When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.</p>
         <p>We may also collect information that Your browser sends whenever You visit our Service or when You access the Service by or through a mobile device.</p>
-        <h4>Information from Third-Party Social Media Services</h4>
-        <p>The Company allows You to create an account and log in to use the Service through the following Third-party Social Media Services:</p>
-        <ul>
-          <li>Google</li>
-          <li>Facebook</li>
-          <li>Instagram</li>
-          <li>Twitter</li>
-          <li>LinkedIn</li>
-        </ul>
-        <p>If You decide to register through or otherwise grant us access to a Third-Party Social Media Service, We may collect Personal data that is already associated with Your Third-Party Social Media Service's account, such as Your name, Your email address, Your activities or Your contact list associated with that account.</p>
-        <p>You may also have the option of sharing additional information with the Company through Your Third-Party Social Media Service's account. If You choose to provide such information and Personal Data, during registration or otherwise, You are giving the Company permission to use, share, and store it in a manner consistent with this Privacy Policy.</p>
         <h3>Use of Your Personal Data</h3>
         <p>The Company may use Personal Data for the following purposes:</p>
         <ul>
@@ -150,7 +139,7 @@ export default function Privacy() {
         <h2>Contact Us</h2>
         <p>If you have any questions about this Privacy Policy, You can contact us:</p>
         <ul>
-          <li>By email: hello@pranshujha.com</li>
+          <li>By email: <a href="mailto:hello@pranshujha.com">hello@pranshujha.com</a></li>
         </ul>
       </article>
     </main>
