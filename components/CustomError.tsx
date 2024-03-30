@@ -17,10 +17,10 @@ export default function CustomError({ reset }: { reset: () => void }) {
           <CardDescription>Share Files Anonymously, Effortlessly.</CardDescription>
         </CardHeader>
         
-        <CardContent className="text-center text-gray-700 max-w-md w-full">
+        <CardContent className="text-center text-gray-700 w-full">
           <p>You seem to have been disconnected from the server :[</p>
-          <p>Please try refreshing.</p>
-          <Button className='w-full mt-6' onClick={() => reset()}>Refresh <RefreshCcw className="ml-2 h-4 w-4" /> </Button>
+          <p>Please try refreshing or reconnecting to internet.</p>
+          <Button className='w-full mt-6 max-w-md' onClick={() => reset()}>Refresh <RefreshCcw className="ml-2 h-4 w-4" /> </Button>
         </CardContent>
 
         <CardFooter className="flex items-center flex-wrap justify-center mt-auto text-xs">
