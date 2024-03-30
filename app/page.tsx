@@ -2,7 +2,7 @@
 
 // LIBS
 import { Peer } from "peerjs";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { randomId, validatePeerID } from "@/lib/utils";
 import Link from "next/link";
 import { useSearchParams } from 'next/navigation'
@@ -248,7 +248,7 @@ export default function Home() {
                   </>
                 ) : (
                   // NOT CONNECTED TO REMOTE
-                  <>
+                  <Suspense>
                     <Label htmlFor="remoteId">Connect to remote to send files</Label>
                     <div className="flex items-center justify-between">
                       <Input id="remoteId" type="text" maxLength={5} placeholder="Remote ID" value={remoteId || ""} onChange={(e) => setRemoteId(e.target.value)} />
@@ -256,7 +256,7 @@ export default function Home() {
                         <PlugZap className="h-4 w-4" />
                       </Button>
                     </div>
-                  </>
+                  </Suspense>
                 )} 
                 </>
               ) }
