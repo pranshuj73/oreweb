@@ -156,7 +156,8 @@ export default function Home() {
           </CardTitle>
           <CardDescription>Share Files Anonymously, Effortlessly.</CardDescription>
         </CardHeader>
-        
+
+        <Suspense>
           { !peer ? (
             <CardContent className="w-full max-w-md">
               <Button className="w-full my-1" variant={"secondary"} onClick={() => connect(false)}> Send Files<Rocket className="ml-2 h-4 w-4" /></Button>
@@ -248,7 +249,7 @@ export default function Home() {
                   </>
                 ) : (
                   // NOT CONNECTED TO REMOTE
-                  <Suspense>
+                  <>
                     <Label htmlFor="remoteId">Connect to remote to send files</Label>
                     <div className="flex items-center justify-between">
                       <Input id="remoteId" type="text" maxLength={5} placeholder="Remote ID" value={remoteId || ""} onChange={(e) => setRemoteId(e.target.value)} />
@@ -256,12 +257,14 @@ export default function Home() {
                         <PlugZap className="h-4 w-4" />
                       </Button>
                     </div>
-                  </Suspense>
+                  </>
                 )} 
                 </>
               ) }
             </CardContent>
           ) }
+        </Suspense>
+        
 
         <CardFooter className="flex items-center flex-wrap justify-center mt-auto text-xs">
           Made by <Link className="mx-1 text-blue-500" target={"_blank"} rel={"noopener noreferrer"} href={"https://twitter.com/pranshuj73"}>@pranshuj73</Link> with <span className="text-red-500 ml-1">❤</span>
