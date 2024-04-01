@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.pranshujha.oreweb.twa",
+        "sha256_cert_fingerprints": ["96:7D:8C:4E:44:04:0E:14:22:29:BD:EB:82:98:B1:65:26:F5:6A:9A:1B:A0:1A:89:5F:4A:08:81:2E:5A:28:06", "D7:4D:5F:61:3D:3D:3B:D4:B5:F7:8D:48:B9:6B:2E:6A:5A:AD:B7:8D:F0:78:87:B0:73:10:97:0E:8B:BB:0D:F5"]
+      }
+    }]

@@ -1,0 +1,51 @@
+{
+  "packageId": "com.pranshujha.oreweb.twa",
+  "host": "oreweb.pranshujha.com",
+  "name": "Oreweb - Instant File Sharing",
+  "launcherName": "Oreweb",
+  "display": "standalone",
+  "themeColor": "#FFFFFF",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#FFFFFF",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://oreweb.pranshujha.com/windows11/SplashScreen.scale-400.png",
+  "maskableIconUrl": "https://oreweb.pranshujha.com/android/android-launchericon-512-512.png",
+  "monochromeIconUrl": "https://oreweb.pranshujha.com/logo.svg",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "C:\\Users\\Pranshu\\Desktop\\GitHub\\oreweb\\twa\\android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://oreweb.pranshujha.com/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://oreweb.pranshujha.com/",
+  "minSdkVersion": 19,
+  "orientation": "any",
+  "fingerprints": [
+    {
+      "value": "96:7D:8C:4E:44:04:0E:14:22:29:BD:EB:82:98:B1:65:26:F5:6A:9A:1B:A0:1A:89:5F:4A:08:81:2E:5A:28:06"
+    },
+    {
+      "value": "D7:4D:5F:61:3D:3D:3B:D4:B5:F7:8D:48:B9:6B:2E:6A:5A:AD:B7:8D:F0:78:87:B0:73:10:97:0E:8B:BB:0D:F5"
+    }
+  ],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "appVersion": "1"
+}
