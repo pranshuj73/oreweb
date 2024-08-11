@@ -136,7 +136,8 @@ export default function Home() {
 
   useEffect(() => {
     const remID = searchParams.get('rem')
-    if (remID && validatePeerID(remID!)) {
+    if (!remID) return;
+    if (validatePeerID(remID)) {
       connect(false);  // connect as sender
       setRemoteId(remID);
     } else {
