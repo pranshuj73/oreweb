@@ -68,7 +68,7 @@ export default function Home() {
           }
         });
         conn.on("close", () => {
-          toast({ title: `Connection Lost!`, description: "Please try reconnecting with remote again!" });
+          toast({ title: `Connection Terminated!`, description: "Please enter a remote ID to connect again!" });
           disconnect();
         })
         conn.on("error", (err) => {
@@ -268,7 +268,7 @@ export default function Home() {
         
 
         <CardFooter className="flex items-center flex-wrap justify-center mt-auto text-xs">
-          Made by <Link className="mx-1 text-blue-500" target={"_blank"} rel={"noopener noreferrer"} href={"https://twitter.com/pranshuj73"}>@pranshuj73</Link> with <span className="text-red-500 ml-1">❤</span>
+          Made by <Link className="mx-1 text-blue-500" target={"_blank"} rel={"noopener noreferrer"} href={"https://pranshujha.com"}>Pranshu Jha</Link> with <span className="text-red-500 ml-1">❤</span>
         </CardFooter>
       </Card>
 
